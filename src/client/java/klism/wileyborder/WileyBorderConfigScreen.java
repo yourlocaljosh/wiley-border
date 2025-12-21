@@ -17,40 +17,48 @@ public final class WileyBorderConfigScreen {
                 .setTitle(Text.literal("Wiley Border"))
                 .setSavingRunnable(ConfigManager::save);
 
-        ConfigCategory general = builder.getOrCreateCategory(Text.literal("General"));
         ConfigEntryBuilder eb = builder.entryBuilder();
 
-        general.addEntry(
-                eb.startBooleanToggle(Text.literal("Enabled"), cfg.enabled)
-                        .setDefaultValue(true)
-                        .setSaveConsumer(val -> cfg.enabled = val)
+        addBorderCategory(builder, eb, "Border 1", cfg.border1);
+        addBorderCategory(builder, eb, "Border 2", cfg.border2);
+        addBorderCategory(builder, eb, "Border 3", cfg.border3);
+        addBorderCategory(builder, eb, "Border 4", cfg.border4);
+
+        return builder.build();
+    }
+
+    private static void addBorderCategory(ConfigBuilder builder, ConfigEntryBuilder eb, String title, BorderConfig border) {
+        ConfigCategory cat = builder.getOrCreateCategory(Text.literal(title));
+
+        cat.addEntry(
+                eb.startBooleanToggle(Text.literal("Enabled"), border.enabled)
+                        .setDefaultValue(false)
+                        .setSaveConsumer(val -> border.enabled = val)
                         .build()
         );
 
-        general.addEntry(
-                eb.startEnumSelector(Text.literal("Axis"), Axis.class, cfg.axis)
+        cat.addEntry(
+                eb.startEnumSelector(Text.literal("Axis"), Axis.class, border.axis)
                         .setDefaultValue(Axis.X)
-                        .setSaveConsumer(val -> cfg.axis = val)
+                        .setSaveConsumer(val -> border.axis = val)
                         .build()
         );
 
-        general.addEntry(
-                eb.startIntField(Text.literal("Coordinate"), cfg.coordinate)
+        cat.addEntry(
+                eb.startIntField(Text.literal("Coords"), border.coordinate)
                         .setDefaultValue(0)
                         .setMin(Integer.MIN_VALUE)
                         .setMax(Integer.MAX_VALUE)
-                        .setSaveConsumer(val -> cfg.coordinate = val)
+                        .setSaveConsumer(val -> border.coordinate = val)
                         .build()
         );
 
-        general.addEntry(
-                eb.startColorField(Text.literal("Plane Color"), cfg.argb)
+        cat.addEntry(
+                eb.startColorField(Text.literal("Color"), border.argb)
                         .setDefaultValue(0x33FF0000)
                         .setAlphaMode(true)
-                        .setSaveConsumer(val -> cfg.argb = val)
+                        .setSaveConsumer(val -> border.argb = val)
                         .build()
         );
-
-        return builder.build();
     }
 }
