@@ -1,12 +1,8 @@
 package klism.wileyborder;
 
 public final class WileyBorderConfig {
-    public Axis axis = Axis.X;
-    public int coordinate = 0;
-
-    //Border color
-    public int argb = 0x33FF0000;
-
-    //Show overlay?
-    public boolean enabled = true;
+    public BorderConfig border1 = new BorderConfig();
+    public BorderConfig border2 = new BorderConfig();
+    public BorderConfig border3 = new BorderConfig();
+    public BorderConfig border4 = new BorderConfig();
 }
