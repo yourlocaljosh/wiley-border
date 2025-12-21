@@ -26,7 +26,7 @@ public final class PlaneRenderer {
     }
 
     public static void register() {
-        WorldRenderEvents.AFTER_TRANSLUCENT.register(context -> {
+        WorldRenderEvents.LAST.register(context -> {
             var client = MinecraftClient.getInstance();
             if (client.world == null) return;
 
