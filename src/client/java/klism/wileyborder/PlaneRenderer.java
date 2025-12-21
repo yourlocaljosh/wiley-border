@@ -32,12 +32,12 @@ public final class PlaneRenderer {
             float b = (cfg.argb & 0xFF) / 255.0f;
 
             int minY = client.world.getBottomY();
-            int maxY = client.world.getTopY();
+            int maxYExclusive = client.world.getTopYInclusive() + 1; // make it exclusive for rendering
 
             double x1, x2, y1, y2, z1, z2;
 
             y1 = minY;
-            y2 = maxY;
+            y2 = maxYExclusive;
 
             if (cfg.axis == Axis.X) {
                 double x = cfg.coordinate;
