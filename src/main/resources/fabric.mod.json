@@ -1,34 +1,23 @@
 {
 	"schemaVersion": 1,
-	"id": "wiley-border",
+	"id": "wiley_border",
 	"version": "${version}",
 	"name": "Wiley Border",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Visual overlay for a selected coordinate plane",
 	"authors": [
-		"Me!"
+		"joshsw aka klism"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/yourlocaljosh/wiley-border"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/wiley-border/icon.png",
-	"environment": "*",
+	"icon": "assets/wiley_border/icon.png",
+	"environment": "client",
 	"entrypoints": {
-		"main": [
-			"klism.wileyborder.WileyBorder"
-		],
 		"client": [
 			"klism.wileyborder.WileyBorderClient"
 		]
 	},
-	"mixins": [
-		"wiley-border.mixins.json",
-		{
-			"config": "wiley-border.client.mixins.json",
-			"environment": "client"
-		}
-	],
 	"depends": {
 		"fabricloader": ">=0.18.3",
 		"minecraft": "~1.21.4",
