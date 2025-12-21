@@ -36,8 +36,11 @@ public final class PlaneRenderer {
 
             double x1, x2, y1, y2, z1, z2;
 
-            y1 = minY;
-            y2 = maxYExclusive;
+            double y1World = cam.y - RADIUS;
+            double y2World = cam.y + RADIUS;
+
+            y1 = y1World - cam.y;
+            y2 = y2World - cam.y;
 
             if (cfg.axis == Axis.X) {
                 double x = cfg.coordinate;
