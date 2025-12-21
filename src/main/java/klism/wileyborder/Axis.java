@@ -1,4 +1,5 @@
 package klism.wileyborder;
 
-public class Axis {
+public enum Axis {
+    X, Z
 }
