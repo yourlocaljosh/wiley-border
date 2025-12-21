@@ -10,7 +10,6 @@ import net.minecraft.util.math.Vec3d;
 
 public final class PlaneRenderer {
     private static final double RADIUS = 256.0;
-
     private static final double THICKNESS = 0.04;
 
     private PlaneRenderer() {}
@@ -31,34 +30,29 @@ public final class PlaneRenderer {
             float g = ((cfg.argb >> 8) & 0xFF) / 255.0f;
             float b = (cfg.argb & 0xFF) / 255.0f;
 
-            int minY = client.world.getBottomY();
-            int maxYExclusive = client.world.getTopYInclusive() + 1; // make it exclusive for rendering
-
-            double x1, x2, y1, y2, z1, z2;
-
             double y1World = cam.y - RADIUS;
             double y2World = cam.y + RADIUS;
+
+            double x1, x2, y1, y2, z1, z2;
 
             y1 = y1World - cam.y;
             y2 = y2World - cam.y;
 
             if (cfg.axis == Axis.X) {
                 double x = cfg.coordinate;
-                x1 = x - THICKNESS / 2.0;
-                x2 = x + THICKNESS / 2.0;
-                z1 = cam.z - RADIUS;
-                z2 = cam.z + RADIUS;
+                x1 = (x - THICKNESS / 2.0) - cam.x;
+                x2 = (x + THICKNESS / 2.0) - cam.x;
+
+                z1 = (cam.z - RADIUS) - cam.z;
+                z2 = (cam.z + RADIUS) - cam.z;
             } else {
                 double z = cfg.coordinate;
-                z1 = z - THICKNESS / 2.0;
-                z2 = z + THICKNESS / 2.0;
-                x1 = cam.x - RADIUS;
-                x2 = cam.x + RADIUS;
-            }
+                z1 = (z - THICKNESS / 2.0) - cam.z;
+                z2 = (z + THICKNESS / 2.0) - cam.z;
 
-            x1 -= cam.x; x2 -= cam.x;
-            z1 -= cam.z; z2 -= cam.z;
-            y1 -= cam.y; y2 -= cam.y;
+                x1 = (cam.x - RADIUS) - cam.x;
+                x2 = (cam.x + RADIUS) - cam.x;
+            }
 
             VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getDebugFilledBox());
             VertexRendering.drawFilledBox(matrices, vc, x1, y1, z1, x2, y2, z2, r, g, b, a);
