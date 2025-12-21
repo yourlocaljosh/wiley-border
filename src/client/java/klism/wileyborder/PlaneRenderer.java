@@ -11,7 +11,7 @@ import net.minecraft.util.math.Vec3d;
 public final class PlaneRenderer {
     private static final double RADIUS = 256.0;
 
-    private static final double THICKNESS = 0.02;
+    private static final double THICKNESS = 0.04;
 
     private PlaneRenderer() {}
 
