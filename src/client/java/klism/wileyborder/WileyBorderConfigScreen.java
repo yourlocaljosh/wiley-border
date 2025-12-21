@@ -17,18 +17,20 @@ public final class WileyBorderConfigScreen {
                 .setTitle(Text.literal("Wiley Border"))
                 .setSavingRunnable(ConfigManager::save);
 
+        ConfigCategory cat = builder.getOrCreateCategory(Text.literal("Borders"));
         ConfigEntryBuilder eb = builder.entryBuilder();
 
-        addBorderCategory(builder, eb, "Border 1", cfg.border1);
-        addBorderCategory(builder, eb, "Border 2", cfg.border2);
-        addBorderCategory(builder, eb, "Border 3", cfg.border3);
-        addBorderCategory(builder, eb, "Border 4", cfg.border4);
+        addBorderRow(cat, eb, "Border 1", cfg.border1);
+        addBorderRow(cat, eb, "Border 2", cfg.border2);
+        addBorderRow(cat, eb, "Border 3", cfg.border3);
+        addBorderRow(cat, eb, "Border 4", cfg.border4);
 
         return builder.build();
     }
 
-    private static void addBorderCategory(ConfigBuilder builder, ConfigEntryBuilder eb, String title, BorderConfig border) {
-        ConfigCategory cat = builder.getOrCreateCategory(Text.literal(title));
+    private static void addBorderRow(ConfigCategory cat, ConfigEntryBuilder eb, String name, BorderConfig border) {
+        // A small header to visually separate each row
+        cat.addEntry(eb.startTextDescription(Text.literal(name)).build());
 
         cat.addEntry(
                 eb.startBooleanToggle(Text.literal("Enabled"), border.enabled)
