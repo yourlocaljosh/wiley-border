@@ -15,6 +15,16 @@ public final class PlaneRenderer {
 
     private PlaneRenderer() {}
 
+    private static float clamp01(float v) {
+        if (v < 0f) {
+            return 0f;
+        }
+        if (v > 1f) {
+            return 1f;
+        }
+        return v;
+    }
+
     public static void register() {
         WorldRenderEvents.AFTER_TRANSLUCENT.register(context -> {
             var client = MinecraftClient.getInstance();
@@ -38,10 +48,10 @@ public final class PlaneRenderer {
                                   BorderConfig border) {
         if (border == null || !border.enabled) return;
 
-        float a = ((border.argb >> 24) & 0xFF) / 255.0f;
-        float r = ((border.argb >> 16) & 0xFF) / 255.0f;
-        float g = ((border.argb >> 8) & 0xFF) / 255.0f;
-        float b = (border.argb & 0xFF) / 255.0f;
+        float a = clamp01(border.opacity);
+        float r = ((border.rgb >> 16) & 0xFF) / 255.0f;
+        float g = ((border.rgb >> 8) & 0xFF) / 255.0f;
+        float b = (border.rgb & 0xFF) / 255.0f;
 
         double y1 = -RADIUS;
         double y2 =  RADIUS;
