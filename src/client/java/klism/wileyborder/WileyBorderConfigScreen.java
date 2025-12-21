@@ -56,10 +56,19 @@ public final class WileyBorderConfigScreen {
         );
 
         cat.addEntry(
-                eb.startColorField(Text.literal("Color"), border.argb)
-                        .setDefaultValue(0x33FF0000)
-                        .setAlphaMode(true)
-                        .setSaveConsumer(val -> border.argb = val)
+                eb.startColorField(Text.literal("Color"), border.rgb)
+                        .setDefaultValue(0xFF0000)
+                        .setAlphaMode(false)
+                        .setSaveConsumer(val -> border.rgb = (val & 0xFFFFFF))
+                        .build()
+        );
+
+        cat.addEntry(
+                eb.startFloatField(Text.literal("Opacity"), border.opacity)
+                        .setDefaultValue(0.20f)
+                        .setMin(0.0f)
+                        .setMax(1.0f)
+                        .setSaveConsumer(val -> border.opacity = val)
                         .build()
         );
     }
