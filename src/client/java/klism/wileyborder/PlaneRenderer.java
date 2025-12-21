@@ -1,5 +1,6 @@
 package klism.wileyborder;
 
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
@@ -20,42 +21,48 @@ public final class PlaneRenderer {
             if (client.world == null) return;
 
             WileyBorderConfig cfg = ConfigManager.get();
-            if (!cfg.enabled) return;
 
             MatrixStack matrices = context.matrixStack();
             Vec3d cam = context.camera().getPos();
 
-            float a = ((cfg.argb >> 24) & 0xFF) / 255.0f;
-            float r = ((cfg.argb >> 16) & 0xFF) / 255.0f;
-            float g = ((cfg.argb >> 8) & 0xFF) / 255.0f;
-            float b = (cfg.argb & 0xFF) / 255.0f;
-
-            double y1World = cam.y - RADIUS;
-            double y2World = cam.y + RADIUS;
-
-            double x1, x2, y1, y2, z1, z2;
-
-            y1 = y1World - cam.y;
-            y2 = y2World - cam.y;
-
-            if (cfg.axis == Axis.X) {
-                double x = cfg.coordinate;
-                x1 = (x - THICKNESS / 2.0) - cam.x;
-                x2 = (x + THICKNESS / 2.0) - cam.x;
-
-                z1 = (cam.z - RADIUS) - cam.z;
-                z2 = (cam.z + RADIUS) - cam.z;
-            } else {
-                double z = cfg.coordinate;
-                z1 = (z - THICKNESS / 2.0) - cam.z;
-                z2 = (z + THICKNESS / 2.0) - cam.z;
-
-                x1 = (cam.x - RADIUS) - cam.x;
-                x2 = (cam.x + RADIUS) - cam.x;
-            }
-
-            VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getDebugFilledBox());
-            VertexRendering.drawFilledBox(matrices, vc, x1, y1, z1, x2, y2, z2, r, g, b, a);
+            renderOne(context, matrices, cam, cfg.border1);
+            renderOne(context, matrices, cam, cfg.border2);
+            renderOne(context, matrices, cam, cfg.border3);
+            renderOne(context, matrices, cam, cfg.border4);
         });
+    }
+
+    private static void renderOne(WorldRenderContext context,
+                                  MatrixStack matrices,
+                                  Vec3d cam,
+                                  BorderConfig border) {
+        if (border == null || !border.enabled) return;
+
+        float a = ((border.argb >> 24) & 0xFF) / 255.0f;
+        float r = ((border.argb >> 16) & 0xFF) / 255.0f;
+        float g = ((border.argb >> 8) & 0xFF) / 255.0f;
+        float b = (border.argb & 0xFF) / 255.0f;
+
+        double y1 = -RADIUS;
+        double y2 =  RADIUS;
+
+        double x1, x2, z1, z2;
+
+        if (border.axis == Axis.X) {
+            double x = border.coordinate;
+            x1 = (x - THICKNESS / 2.0) - cam.x;
+            x2 = (x + THICKNESS / 2.0) - cam.x;
+            z1 = -RADIUS;
+            z2 =  RADIUS;
+        } else {//z
+            double z = border.coordinate;
+            z1 = (z - THICKNESS / 2.0) - cam.z;
+            z2 = (z + THICKNESS / 2.0) - cam.z;
+            x1 = -RADIUS;
+            x2 =  RADIUS;
+        }
+
+        VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getDebugFilledBox());
+        VertexRendering.drawFilledBox(matrices, vc, x1, y1, z1, x2, y2, z2, r, g, b, a);
     }
 }
