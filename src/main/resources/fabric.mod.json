@@ -14,9 +14,8 @@
 	"icon": "assets/wiley_border/icon.png",
 	"environment": "client",
 	"entrypoints": {
-		"client": [
-			"klism.wileyborder.WileyBorderClient"
-		]
+		"client": ["klism.wileyborder.WileyBorderClient"],
+		"modmenu": ["klism.wileyborder.WileyBorderModMenu"]
 	},
 	"depends": {
 		"fabricloader": ">=0.18.3",
